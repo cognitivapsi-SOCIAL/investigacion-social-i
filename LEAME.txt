@@ -1,0 +1,23 @@
+INVESTIGACIÓN SOCIAL I — VERSIÓN 7 PORTABLE
+
+Abra index.html con doble clic. No requiere Python, Flask ni servidor.
+
+NUEVA FUNCIÓN: PROYECTO DE INVESTIGACIÓN SOCIAL EN CONSTRUCCIÓN
+Las evidencias de las sesiones alimentan progresivamente 11 componentes:
+1. Situación social inicial
+2. Problematización y problema
+3. Pregunta de investigación
+4. Objetivo general
+5. Objetivos específicos
+6. Antecedentes y estado de conocimiento
+7. Estrategia metodológica
+8. Técnicas e instrumentos
+9. Consideraciones éticas
+10. Trabajo de campo y organización
+11. Síntesis del proyecto
+
+Permite recuperar producciones del portafolio, editarlas, guardar cada componente,
+ver el proyecto integrado, medir avance y exportarlo como TXT.
+
+Conserva 32 sesiones, portafolio, autoevaluación, rúbricas, retroalimentación,
+analítica longitudinal y alertas pedagógicas.
