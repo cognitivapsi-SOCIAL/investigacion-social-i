@@ -1,0 +1,3 @@
+const http=require("http"),fs=require("fs"),path=require("path");
+const port=process.env.PORT||8080, types={".html":"text/html; charset=utf-8",".js":"application/javascript; charset=utf-8",".css":"text/css; charset=utf-8",".txt":"text/plain; charset=utf-8"};
+http.createServer((req,res)=>{let p=decodeURIComponent(req.url.split("?")[0]);if(p==="/")p="/index.html";let f=path.join(__dirname,p);if(!f.startsWith(__dirname)){res.writeHead(403);return res.end("Forbidden")}fs.stat(f,(e,s)=>{if(e||!s.isFile()){res.writeHead(404);return res.end("Not found")}res.writeHead(200,{"Content-Type":types[path.extname(f)]||"application/octet-stream","Cache-Control":"no-cache"});fs.createReadStream(f).pipe(res)})}).listen(port,"0.0.0.0");
