@@ -268,3 +268,10 @@
   outline:2px solid currentColor;
   outline-offset:2px;
 }
+.matrix-cell em{
+  display:block;
+  margin-top:5px;
+  font-size:10px;
+  font-style:normal;
+  opacity:.75;
+}
