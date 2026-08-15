@@ -111,6 +111,7 @@ function getStudentTrend(userId){
 function getStudentAlerts(userId){
   let analytics=getStudentAnalytics(userId);
   let trend=getStudentTrend(userId);
+  let studentAlerts=getStudentAlerts(userId);
   let alerts=[];
 
   if(analytics.count<2){
@@ -720,7 +721,16 @@ let analytics=getStudentAnalytics(userId);
       <b>${trend.transfer}</b>
     </article>
   </div>
-
+<div class="student-alerts">
+  ${studentAlerts.length
+    ?studentAlerts.map(a=>`
+      <div class="alert-row">
+        <b>${a.dimension}:</b> ${a.message}
+      </div>
+    `).join("")
+    :'<p class="lead">Sin alertas pedagógicas automáticas.</p>'
+  }
+</div>
   <p class="lead">
     ${analytics.count
       ? `Promedio integral del microciclo: <b>${analytics.total.toFixed(2)}/12</b>.`
