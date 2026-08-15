@@ -138,6 +138,7 @@ async function loadStudentSubmissions(){
  }catch(e){
    alert(e.message)
  }
+ }
 function linkCourse(id){state.linkedCourseId=id;state.classroomCourseWork=[];save();alert("Curso vinculado con Investigación Social I.");renderClassroom()}
 function mapCourseWork(courseWorkId,sessionNo){if(!sessionNo)delete state.classroomMap[courseWorkId];else state.classroomMap[courseWorkId]=Number(sessionNo);save();renderClassroom()}
 function sessionOptions(selected){let o=['<option value="">Sin vincular</option>'];D.sessions.forEach(s=>{let q=Number(selected)===s.no?" selected":"";o.push(`<option value="${s.no}"${q}>S${s.no} · ${esc(s.title)}</option>`)});return o.join("")}
