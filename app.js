@@ -154,10 +154,116 @@ function renderAnalytics(){
 }
 function renderTeacher(){
  let evNums=Object.keys(state.evidence).map(Number).sort((a,b)=>a-b);
- let rs=Object.values(state.rubrics), av=[0,0,0]; if(rs.length){rs.forEach(r=>{av[0]+=r.s;av[1]+=r.p;av[2]+=r.t});av=av.map(x=>(x/rs.length).toFixed(2))}
- let alerts=[];evNums.forEach(n=>{let r=state.rubrics[n];if(r){if(r.s<2.5)alerts.push(`Sesión ${n}: Selección requiere refuerzo.`);if(r.p<2.5)alerts.push(`Sesión ${n}: Procesamiento requiere refuerzo.`);if(r.t<2.5)alerts.push(`Sesión ${n}: Transferencia requiere refuerzo.`)}})
- let rows=evNums.map(n=>`<div class="evidence-row"><b>Sesión ${n} · ${sessionByNo(n).title}</b><button class="secondary" onclick="reviewEvidence(${n})">Revisar</button></div>`).join("");
- app(layout(`<div class="topbar"><div><p class="eyebrow">PANEL DOCENTE</p><h2>Seguimiento pedagógico</h2></div></div><div class="stats"><article><span>Selección</span><b>${av[0]}/4</b></article><article><span>Procesamiento</span><b>${av[1]}/4</b></article><article><span>Transferencia</span><b>${av[2]}/4</b></article></div><div class="panel"><h2>Alertas</h2>${alerts.map(a=>`<div class="alert-row">${a}</div>`).join("")||'<p class="lead">Sin alertas todavía.</p>'}</div><div class="panel"><h2>Evidencias</h2>${rows||'<p class="lead">Aún no hay evidencias.</p>'}</div>`,"teacher","teacher"))
+
+ let rs=Object.values(state.rubrics), av=[0,0,0];
+ if(rs.length){
+   rs.forEach(r=>{
+     av[0]+=r.s;
+     av[1]+=r.p;
+     av[2]+=r.t
+   });
+   av=av.map(x=>(x/rs.length).toFixed(2))
+ }
+
+ let alerts=[];
+ evNums.forEach(n=>{
+   let r=state.rubrics[n];
+   if(r){
+     if(r.s<2.5)alerts.push(`Sesión ${n}: Selección requiere refuerzo.`);
+     if(r.p<2.5)alerts.push(`Sesión ${n}: Procesamiento requiere refuerzo.`);
+     if(r.t<2.5)alerts.push(`Sesión ${n}: Transferencia requiere refuerzo.`)
+   }
+ });
+
+ let rows=evNums.map(n=>
+   `<div class="evidence-row">
+      <b>Sesión ${n} · ${sessionByNo(n).title}</b>
+      <button class="secondary" onclick="reviewEvidence(${n})">Revisar</button>
+    </div>`
+ ).join("");
+
+ let submissions=state.classroomSubmissions||[];
+
+ let classroomStudents=
+   new Set(submissions.map(s=>s.userId).filter(Boolean)).size;
+
+ let classroomActivities=
+   new Set(submissions.map(s=>s.courseWorkId).filter(Boolean)).size;
+
+ let classroomDelivered=
+   submissions.filter(s=>s.state==="TURNED_IN"||s.state==="RETURNED").length;
+
+ let classroomPending=
+   submissions.length-classroomDelivered;
+
+ app(layout(`
+   <div class="topbar">
+     <div>
+       <p class="eyebrow">PANEL DOCENTE</p>
+       <h2>Seguimiento pedagógico</h2>
+     </div>
+   </div>
+
+   <div class="panel">
+     <p class="eyebrow">GOOGLE CLASSROOM</p>
+     <h2>Resumen de seguimiento</h2>
+
+     <div class="stats">
+       <article>
+         <span>Estudiantes</span>
+         <b>${classroomStudents}</b>
+       </article>
+
+       <article>
+         <span>Actividades</span>
+         <b>${classroomActivities}</b>
+       </article>
+
+       <article>
+         <span>Entregadas</span>
+         <b>${classroomDelivered}</b>
+       </article>
+
+       <article>
+         <span>Pendientes</span>
+         <b>${classroomPending}</b>
+       </article>
+     </div>
+
+     ${submissions.length
+       ?`<p class="lead">${submissions.length} registros sincronizados desde Google Classroom.</p>`
+       :`<p class="lead">Pulsa “Leer entregas” en Google Classroom para actualizar el seguimiento.</p>`
+     }
+   </div>
+
+   <div class="stats">
+     <article>
+       <span>Selección</span>
+       <b>${av[0]}/4</b>
+     </article>
+
+     <article>
+       <span>Procesamiento</span>
+       <b>${av[1]}/4</b>
+     </article>
+
+     <article>
+       <span>Transferencia</span>
+       <b>${av[2]}/4</b>
+     </article>
+   </div>
+
+   <div class="panel">
+     <h2>Alertas</h2>
+     ${alerts.map(a=>`<div class="alert-row">${a}</div>`).join("")||
+       '<p class="lead">Sin alertas todavía.</p>'}
+   </div>
+
+   <div class="panel">
+     <h2>Evidencias</h2>
+     ${rows||'<p class="lead">Aún no hay evidencias.</p>'}
+   </div>
+ `,"teacher","teacher"))
 }
 function reviewEvidence(no){
  let e=state.evidence[no],r=state.rubrics[no]||{s:3,p:3,t:3,comment:""},s=sessionByNo(no);
