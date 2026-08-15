@@ -7,6 +7,20 @@ function save(){localStorage.setItem("is1_portable_state",JSON.stringify(state))
 state.user=state.user||null;
 function app(html){document.getElementById("app").innerHTML=html}
 function sessionByNo(n){return D.sessions.find(s=>s.no===Number(n))}
+function studentRubricKey(userId,sessionNo){
+  return String(userId)+"_"+String(sessionNo);
+}
+
+function getStudentRubric(userId,sessionNo){
+  let key=studentRubricKey(userId,sessionNo);
+
+  return state.studentRubrics[key]||{
+    selection:3,
+    processing:3,
+    transfer:3,
+    comment:""
+  };
+}
 function layout(content,active="inicio",role=state.role){
   return `<div class="layout"><aside class="sidebar"><div class="brand"><div class="logo">IS</div><div><strong>Investigación Social I</strong><small>Aprendizaje · Portafolio · Classroom</small></div></div>
   <button class="nav ${active==="inicio"?"active":""}" onclick="renderHome()">Inicio</button>
