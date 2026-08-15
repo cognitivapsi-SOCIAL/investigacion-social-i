@@ -583,7 +583,48 @@ let analytics=getStudentAnalytics(userId);
         </article>
       </div>
     </div>
+<div class="panel">
+  ... Estado Classroom ...
+  ... Trayecto ...
+  ... Sesión ...
+</div>
 
+<div class="panel">
+  <p class="eyebrow">EVOLUCIÓN DEL APRENDIZAJE</p>
+  <h2>Analítica individual</h2>
+
+  <div class="stats">
+    <article>
+      <span>Sesiones valoradas</span>
+      <b>${analytics.count}</b>
+    </article>
+
+    <article>
+      <span>Selección</span>
+      <b>${analytics.count?analytics.selection.toFixed(2):"-"}/4</b>
+    </article>
+
+    <article>
+      <span>Procesamiento</span>
+      <b>${analytics.count?analytics.processing.toFixed(2):"-"}/4</b>
+    </article>
+
+    <article>
+      <span>Transferencia</span>
+      <b>${analytics.count?analytics.transfer.toFixed(2):"-"}/4</b>
+    </article>
+  </div>
+
+  <p class="lead">
+    ${analytics.count
+      ?`Promedio integral del microciclo: <b>${analytics.total.toFixed(2)}/12</b>.`
+      :"Esta estudiante todavía no tiene sesiones valoradas."
+    }
+  </p>
+</div>
+
+<div class="panel">
+  <h2>Seguimiento pedagógico</h2>
     <div class="panel">
   <h2>Seguimiento pedagógico</h2>
 
