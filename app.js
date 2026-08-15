@@ -108,6 +108,41 @@ function getStudentTrend(userId){
     transfer:trend(first.transfer,last.transfer)
   };
 }
+function getStudentAlerts(userId){
+  let analytics=getStudentAnalytics(userId);
+  let trend=getStudentTrend(userId);
+  let alerts=[];
+
+  if(analytics.count<2){
+    return alerts;
+  }
+
+  if(trend.selection==="Retroceso"){
+    alerts.push({
+      type:"warning",
+      dimension:"Selección",
+      message:"Se observa retroceso en la selección de información relevante."
+    });
+  }
+
+  if(trend.processing==="Retroceso"){
+    alerts.push({
+      type:"warning",
+      dimension:"Procesamiento",
+      message:"Se observa retroceso en el procesamiento y organización de la información."
+    });
+  }
+
+  if(trend.transfer==="Retroceso"){
+    alerts.push({
+      type:"warning",
+      dimension:"Transferencia",
+      message:"Se observa retroceso en la transferencia de los aprendizajes."
+    });
+  }
+
+  return alerts;
+}
 function layout(content,active="inicio",role=state.role){
   return `<div class="layout"><aside class="sidebar"><div class="brand"><div class="logo">IS</div><div><strong>Investigación Social I</strong><small>Aprendizaje · Portafolio · Classroom</small></div></div>
   <button class="nav ${active==="inicio"?"active":""}" onclick="renderHome()">Inicio</button>
