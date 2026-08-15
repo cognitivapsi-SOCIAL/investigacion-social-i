@@ -3,7 +3,7 @@ let googleToken=sessionStorage.getItem("is1_google_token")||"";
 
 const D=window.APP_DATA;
 let state=JSON.parse(localStorage.getItem("is1_portable_state")||'{"role":null,"evidence":{},"rubrics":{},"project":{}}');
-state.evidence=state.evidence||{}; state.rubrics=state.rubrics||{}; state.project=state.project||{}; state.classroomMap=state.classroomMap||{}; state.classroomCourseWork=state.classroomCourseWork||[];
+state.evidence=state.evidence||{}; state.rubrics=state.rubrics||{}; state.project=state.project||{}; state.classroomMap=state.classroomMap||{};state.classroomCourseWork=state.classroomCourseWork||[];
 function save(){localStorage.setItem("is1_portable_state",JSON.stringify(state))}
 state.user=state.user||null;
 function app(html){document.getElementById("app").innerHTML=html}
@@ -112,7 +112,32 @@ function classroomScope(){let extra=state.role==="teacher"?CLASSROOM_CONFIG.TEAC
 function connectClassroom(){loadGoogleIdentity(()=>{let tc=google.accounts.oauth2.initTokenClient({client_id:CLASSROOM_CONFIG.OAUTH_CLIENT_ID,scope:classroomScope(),callback:r=>{if(r.error)return alert("OAuth: "+r.error);googleToken=r.access_token;sessionStorage.setItem("is1_google_token",googleToken);loadCourses()}});tc.requestAccessToken({prompt:"consent"})})}
 async function classroomFetch(url){let r=await fetch(url,{headers:{Authorization:"Bearer "+googleToken}});if(r.status===401){googleToken="";sessionStorage.removeItem("is1_google_token");throw new Error("La sesión de Google venció. Vuelve a conectar Classroom.")}let d=await r.json();if(!r.ok)throw new Error(d.error?.message||"Error al consultar Google Classroom.");return d}
 async function loadCourses(){try{let d=await classroomFetch("https://classroom.googleapis.com/v1/courses?courseStates=ACTIVE&pageSize=50");state.classroomCourses=d.courses||[];save();renderClassroom()}catch(e){alert(e.message)}}
-async function loadCourseWork(){if(!state.linkedCourseId)return alert("Primero vincula el curso INVESTIGACION SOCIAL I.");try{let d=await classroomFetch(`https://classroom.googleapis.com/v1/courses/${encodeURIComponent(state.linkedCourseId)}/courseWork?pageSize=100&orderBy=updateTime%20desc`);state.classroomCourseWork=d.courseWork||[];save();renderClassroom()}catch(e){alert(e.message)}}
+async function loadCourseWork(){
+ if(!state.linkedCourseId)return alert("Primero vincula el curso INVESTIGACION SOCIAL I.");
+ try{
+   let d=await classroomFetch(
+     `https://classroom.googleapis.com/v1/courses/${encodeURIComponent(state.linkedCourseId)}/courseWork?pageSize=100&orderBy=updateTime%20desc`
+   );
+   state.classroomCourseWork=d.courseWork||[];
+   save();
+   renderClassroom();
+ }catch(e){
+   alert(e.message)
+ }
+}
+async function loadStudentSubmissions(){
+ if(!state.linkedCourseId)return alert("Primero vincula el curso INVESTIGACION SOCIAL I.");
+ try{
+   let d=await classroomFetch(
+     `https://classroom.googleapis.com/v1/courses/${encodeURIComponent(state.linkedCourseId)}/courseWork/-/studentSubmissions?pageSize=100`
+   );
+   state.classroomSubmissions=d.studentSubmissions||[];
+   save();
+   alert(`${state.classroomSubmissions.length} entrega(s) recuperada(s) de Classroom.`);
+   renderClassroom();
+ }catch(e){
+   alert(e.message)
+ }
 function linkCourse(id){state.linkedCourseId=id;state.classroomCourseWork=[];save();alert("Curso vinculado con Investigación Social I.");renderClassroom()}
 function mapCourseWork(courseWorkId,sessionNo){if(!sessionNo)delete state.classroomMap[courseWorkId];else state.classroomMap[courseWorkId]=Number(sessionNo);save();renderClassroom()}
 function sessionOptions(selected){let o=['<option value="">Sin vincular</option>'];D.sessions.forEach(s=>{let q=Number(selected)===s.no?" selected":"";o.push(`<option value="${s.no}"${q}>S${s.no} · ${esc(s.title)}</option>`)});return o.join("")}
