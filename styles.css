@@ -254,3 +254,17 @@
 .trajectory-content{
   overflow-x:auto;
 }
+.matrix-cell{
+  font-family:inherit;
+  cursor:pointer;
+  width:100%;
+}
+
+.matrix-cell:hover{
+  transform:translateY(-1px);
+}
+
+.matrix-cell:focus{
+  outline:2px solid currentColor;
+  outline-offset:2px;
+}
