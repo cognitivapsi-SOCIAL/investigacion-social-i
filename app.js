@@ -1,8 +1,9 @@
 const CLASSROOM_CONFIG={OAUTH_CLIENT_ID:"932039937898-hbiit2lhvbih7c19e7ph01v0fddm7b3t.apps.googleusercontent.com",COURSES_SCOPE:"https://www.googleapis.com/auth/classroom.courses.readonly",STUDENT_COURSEWORK_SCOPE:"https://www.googleapis.com/auth/classroom.coursework.me.readonly",TEACHER_COURSEWORK_SCOPE:"https://www.googleapis.com/auth/classroom.coursework.students.readonly"};
 let googleToken=sessionStorage.getItem("is1_google_token")||"";
+
 const D=window.APP_DATA;
 let state=JSON.parse(localStorage.getItem("is1_portable_state")||'{"role":null,"evidence":{},"rubrics":{},"project":{}}');
-state.evidence=state.evidence||{}; state.rubrics=state.rubrics||{}; state.project=state.project||{}; state.classroomMap=state.classroomMap||{};state.classroomSubmissions=state.classroomSubmissions||[];state.classroomCourseWork=state.classroomCourseWork||[];
+state.evidence=state.evidence||{}; state.rubrics=state.rubrics||{}; state.project=state.project||{}; state.classroomMap=state.classroomMap||{};state.classroomCourseWork=state.classroomCourseWork||[];
 function save(){localStorage.setItem("is1_portable_state",JSON.stringify(state))}
 state.user=state.user||null;
 function app(html){document.getElementById("app").innerHTML=html}
@@ -38,11 +39,13 @@ function login(){
  </section>
  </div></div>`)
 }
+
 function chooseRole(r){
  state.role=r;
  save();
  r==="teacher"?renderTeacher():renderHome()
 }
+
 function logout(){
  state.role=null;
  save();
@@ -77,6 +80,7 @@ function renderPortfolio(){
  let rows=D.sessions.map(s=>{let ev=state.evidence[s.no],r=state.rubrics[s.no];return `<div class="portfolio-row ${ev?"completed":""}" onclick="renderSession(${s.no})"><span>${ev?"✓":s.no}</span><div><small>Semana ${s.week} · Trayecto ${s.trayecto}</small><b>${s.product}</b><em>${s.title}</em></div><strong>${r?`Evaluado ${r.s+r.p+r.t}/12`:(ev?"Guardado":"Pendiente")}</strong></div>`}).join("");
  app(layout(`<div class="topbar"><div><p class="eyebrow">PORTAFOLIO</p><h2>Mi proceso de investigación</h2></div></div>${rows}`,"portfolio","student"))
 }
+
 const projectFields=[
  {key:"situation",title:"1. Situación social inicial",source:[1,2,3,4,8],help:"Describe la situación social que origina tu interés investigativo."},
  {key:"problem",title:"2. Problematización y problema",source:[17,18,20],help:"Explica qué tensión, relación o vacío convierte la situación en un problema investigable."},
@@ -139,7 +143,7 @@ function mapCourseWork(courseWorkId,sessionNo){if(!sessionNo)delete state.classr
 function sessionOptions(selected){let o=['<option value="">Sin vincular</option>'];D.sessions.forEach(s=>{let q=Number(selected)===s.no?" selected":"";o.push(`<option value="${s.no}"${q}>S${s.no} · ${esc(s.title)}</option>`)});return o.join("")}
 function dueText(cw){if(!cw.dueDate)return "Sin fecha de entrega";let d=cw.dueDate;return `Entrega: ${String(d.day).padStart(2,"0")}/${String(d.month).padStart(2,"0")}/${d.year}`}
 function courseWorkCard(cw){let m=state.classroomMap[cw.id]||"";return `<article class="coursework-card"><div class="coursework-head"><div><span class="badge">Actividad Classroom</span><h3>${esc(cw.title||"Actividad")}</h3></div><small>${dueText(cw)}</small></div>${cw.description?`<p>${esc(cw.description).replace(/\n/g,"<br>")}</p>`:""}<div class="coursework-meta"><span>Estado: ${esc(cw.state||"")}</span><span>Tipo: ${esc(cw.workType||"")}</span>${cw.maxPoints!=null?`<span>Puntaje: ${cw.maxPoints}</span>`:""}</div><label class="mapping-label">Vincular con sesión<select onchange="mapCourseWork('${cw.id}',this.value)">${sessionOptions(m)}</select></label>${m?`<div class="mapped-note">✓ Vinculada con Sesión ${m}: ${esc(sessionByNo(m).title)}</div>`:""}</article>`}
-function renderClassroom(){let courses=state.classroomCourses||[],work=state.classroomCourseWork||[];let courseCards=courses.map(c=>`<article class="course-card"><span class="badge">Classroom</span><h3>${esc(c.name||"Curso")}</h3><p>${esc(c.section||"")}</p><small>ID: ${esc(c.id||"")}</small><button class="primary" onclick="linkCourse('${c.id}')">${state.linkedCourseId===c.id?"✓ Vinculado":"Vincular curso"}</button></article>`).join("");let workCards=work.map(courseWorkCard).join("");let mappedCount=Object.keys(state.classroomMap||{}).filter(id=>work.some(w=>w.id===id)).length;app(layout(`<div class="topbar"><div><p class="eyebrow">INTEGRACIÓN PEDAGÓGICA · V9</p><h2>Google Classroom</h2></div></div><section class="hero"><div><span class="badge">V9 · actividades + sesiones</span><h1>Classroom como capa institucional</h1><p>La plataforma consulta cursos y actividades en modo lectura. Cada actividad puede asociarse con una de las 32 sesiones de Investigación Social I.</p><button class="primary" onclick="connectClassroom()">Conectar / renovar permisos</button>${googleToken?'<button class="secondary" onclick="loadCourses()">Actualizar cursos</button>':''}${state.linkedCourseId&&googleToken?'<button class="secondary" onclick="loadCourseWork()">Leer actividades</button>':''}${state.linkedCourseId&&googleToken?'<button class="secondary" onclick="loadStudentSubmissions()">Leer entregas</button>':''}</div><div class="progress"><span>Estado</span><b>${googleToken?"Conectado":"Pendiente"}</b><small>${state.linkedCourseId?"Curso vinculado":"Sin curso vinculado"}</small></div></section><article class="panel"><p class="eyebrow">CURSOS ACTIVOS</p><h2>Curso institucional</h2>${courseCards||'<p class="lead">Conecta tu cuenta de Google para consultar cursos activos.</p>'}</article><article class="panel"><div class="section-head"><div><p class="eyebrow">ACTIVIDADES DE CLASSROOM</p><h2>Vinculación con las 32 sesiones</h2></div><span>${mappedCount} vinculada(s)</span></div>${state.linkedCourseId?(workCards||'<p class="lead">Pulsa “Leer actividades” para traer el trabajo de clase del curso vinculado.</p>'):'<p class="lead">Primero vincula INVESTIGACION SOCIAL I.</p>'}</article>`,"classroom",state.role))}
+function renderClassroom(){let courses=state.classroomCourses||[],work=state.classroomCourseWork||[];let courseCards=courses.map(c=>`<article class="course-card"><span class="badge">Classroom</span><h3>${esc(c.name||"Curso")}</h3><p>${esc(c.section||"")}</p><small>ID: ${esc(c.id||"")}</small><button class="primary" onclick="linkCourse('${c.id}')">${state.linkedCourseId===c.id?"✓ Vinculado":"Vincular curso"}</button></article>`).join("");let workCards=work.map(courseWorkCard).join("");let mappedCount=Object.keys(state.classroomMap||{}).filter(id=>work.some(w=>w.id===id)).length;app(layout(`<div class="topbar"><div><p class="eyebrow">INTEGRACIÓN PEDAGÓGICA · V9</p><h2>Google Classroom</h2></div></div><section class="hero"><div><span class="badge">V9 · actividades + sesiones</span><h1>Classroom como capa institucional</h1><p>La plataforma consulta cursos y actividades en modo lectura. Cada actividad puede asociarse con una de las 32 sesiones de Investigación Social I.</p><button class="primary" onclick="connectClassroom()">Conectar / renovar permisos</button>${googleToken?'<button class="secondary" onclick="loadCourses()">Actualizar cursos</button>':''}${state.linkedCourseId&&googleToken?'<button class="secondary" onclick="loadCourseWork()">Leer actividades</button>':''}</div><div class="progress"><span>Estado</span><b>${googleToken?"Conectado":"Pendiente"}</b><small>${state.linkedCourseId?"Curso vinculado":"Sin curso vinculado"}</small></div></section><article class="panel"><p class="eyebrow">CURSOS ACTIVOS</p><h2>Curso institucional</h2>${courseCards||'<p class="lead">Conecta tu cuenta de Google para consultar cursos activos.</p>'}</article><article class="panel"><div class="section-head"><div><p class="eyebrow">ACTIVIDADES DE CLASSROOM</p><h2>Vinculación con las 32 sesiones</h2></div><span>${mappedCount} vinculada(s)</span></div>${state.linkedCourseId?(workCards||'<p class="lead">Pulsa “Leer actividades” para traer el trabajo de clase del curso vinculado.</p>'):'<p class="lead">Primero vincula INVESTIGACION SOCIAL I.</p>'}</article>`,"classroom",state.role))}
 function renderAnalytics(){
  let nums=Object.keys(state.rubrics).map(Number).sort((a,b)=>a-b), av=[0,0,0];
  if(nums.length){nums.forEach(n=>{let r=state.rubrics[n];av[0]+=r.s;av[1]+=r.p;av[2]+=r.t});av=av.map(x=>(x/nums.length).toFixed(2))}
