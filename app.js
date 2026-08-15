@@ -547,6 +547,37 @@ function openStudentSession(userId,sessionNo){
 
   let name=student?.profile?.name?.fullName||"Estudiante";
 let analytics=getStudentAnalytics(userId);
+  let evolutionRows=analytics.records.map(r=>{
+  let total=r.selection+r.processing+r.transfer;
+  return `
+    <div class="evolution-row">
+      <div>
+        <b>S${r.session}</b>
+        <small>Trayecto ${r.trajectory}</small>
+      </div>
+
+      <div>
+        <span>Selección</span>
+        <b>${r.selection}/4</b>
+      </div>
+
+      <div>
+        <span>Procesamiento</span>
+        <b>${r.processing}/4</b>
+      </div>
+
+      <div>
+        <span>Transferencia</span>
+        <b>${r.transfer}/4</b>
+      </div>
+
+      <div>
+        <span>Total</span>
+        <b>${total}/12</b>
+      </div>
+    </div>
+  `;
+}).join("");
   let status="Sin actividad";
 
   if(submission?.state==="CREATED")status="Pendiente";
