@@ -2,7 +2,7 @@ const CLASSROOM_CONFIG={OAUTH_CLIENT_ID:"932039937898-hbiit2lhvbih7c19e7ph01v0fd
 let googleToken=sessionStorage.getItem("is1_google_token")||"";
 const D=window.APP_DATA;
 let state=JSON.parse(localStorage.getItem("is1_portable_state")||'{"role":null,"evidence":{},"rubrics":{},"project":{}}');
-state.evidence=state.evidence||{}; state.rubrics=state.rubrics||{}; state.project=state.project||{}; state.classroomMap=state.classroomMap||{};state.classroomStudents=state.classroomStudents||[];state.classroomCourseWork=state.classroomCourseWork||[];
+state.evidence=state.evidence||{}; state.rubrics=state.rubrics||{};state.studentRubrics=state.studentRubrics||{}; state.project=state.project||{}; state.classroomMap=state.classroomMap||{};state.classroomStudents=state.classroomStudents||[];state.classroomCourseWork=state.classroomCourseWork||[];
 function save(){localStorage.setItem("is1_portable_state",JSON.stringify(state))}
 state.user=state.user||null;
 function app(html){document.getElementById("app").innerHTML=html}
