@@ -22,6 +22,64 @@ function getStudentRubric(userId,sessionNo){
     evaluated:false
   };
 }
+function getStudentRubric(userId,sessionNo){
+  let key=studentRubricKey(userId,sessionNo);
+
+  return state.studentRubrics[key]||{
+    selection:0,
+    processing:0,
+    transfer:0,
+    comment:"",
+    evaluated:false
+  };
+}
+
+function getStudentAnalytics(userId){
+  let records=D.sessions
+    .map(s=>{
+      let r=getStudentRubric(userId,s.no);
+
+      if(!r.evaluated)return null;
+
+      return {
+        session:s.no,
+        trajectory:s.trayecto,
+        selection:Number(r.selection||0),
+        processing:Number(r.processing||0),
+        transfer:Number(r.transfer||0)
+      };
+    })
+    .filter(Boolean);
+
+  if(!records.length){
+    return {
+      count:0,
+      selection:0,
+      processing:0,
+      transfer:0,
+      total:0,
+      records:[]
+    };
+  }
+
+  let selection=
+    records.reduce((a,r)=>a+r.selection,0)/records.length;
+
+  let processing=
+    records.reduce((a,r)=>a+r.processing,0)/records.length;
+
+  let transfer=
+    records.reduce((a,r)=>a+r.transfer,0)/records.length;
+
+  return {
+    count:records.length,
+    selection:Number(selection.toFixed(2)),
+    processing:Number(processing.toFixed(2)),
+    transfer:Number(transfer.toFixed(2)),
+    total:Number((selection+processing+transfer).toFixed(2)),
+    records
+  };
+}
 function layout(content,active="inicio",role=state.role){
   return `<div class="layout"><aside class="sidebar"><div class="brand"><div class="logo">IS</div><div><strong>Investigación Social I</strong><small>Aprendizaje · Portafolio · Classroom</small></div></div>
   <button class="nav ${active==="inicio"?"active":""}" onclick="renderHome()">Inicio</button>
