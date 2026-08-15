@@ -557,6 +557,26 @@ let activityRows=activitySummary
   ${classroomStudentRows||'<p class="lead">Aún no se recuperaron estudiantes desde Classroom.</p>'}
 </div>
 <div class="panel">
+  <p class="eyebrow">ALERTAS PEDAGÓGICAS</p>
+  <h2>Estudiantes que requieren seguimiento</h2>
+
+  ${teacherStudentAlerts.length
+    ?teacherStudentAlerts.map(a=>`
+      <div class="alert-row">
+        <b>
+          ${a.level==="priority"?"PRIORIDAD":"ATENCIÓN"}
+          · ${esc(a.name)}
+          · ${a.dimension}
+        </b>
+
+        <p>${a.message}</p>
+        <small>${a.action}</small>
+      </div>
+    `).join("")
+    :'<p class="lead">No existen alertas pedagógicas activas.</p>'
+  }
+</div>
+<div class="panel">
   <p class="eyebrow">MATRIZ DE SEGUIMIENTO</p>
   <h2>Trayecto I · Sesiones 1 a 8</h2>
 ${trajectoryMatrices}
