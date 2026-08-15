@@ -510,13 +510,60 @@ function openStudentSession(userId,sessionNo){
     </div>
 
     <div class="panel">
-      <h2>Seguimiento pedagógico</h2>
-      <p class="lead">
-        Aquí incorporaremos la valoración de Selección,
-        Procesamiento y Transferencia para esta estudiante
-        y esta sesión.
-      </p>
-    </div>
+  <h2>Seguimiento pedagógico</h2>
+
+  ${(()=>{
+    let r=getStudentRubric(userId,sessionNo);
+
+    return `
+      <div class="score-grid">
+        <label>
+          Selección
+          <select id="student_rs">
+            <option value="1" ${r.selection===1?"selected":""}>1</option>
+            <option value="2" ${r.selection===2?"selected":""}>2</option>
+            <option value="3" ${r.selection===3?"selected":""}>3</option>
+            <option value="4" ${r.selection===4?"selected":""}>4</option>
+          </select>
+        </label>
+
+        <label>
+          Procesamiento
+          <select id="student_rp">
+            <option value="1" ${r.processing===1?"selected":""}>1</option>
+            <option value="2" ${r.processing===2?"selected":""}>2</option>
+            <option value="3" ${r.processing===3?"selected":""}>3</option>
+            <option value="4" ${r.processing===4?"selected":""}>4</option>
+          </select>
+        </label>
+
+        <label>
+          Transferencia
+          <select id="student_rt">
+            <option value="1" ${r.transfer===1?"selected":""}>1</option>
+            <option value="2" ${r.transfer===2?"selected":""}>2</option>
+            <option value="3" ${r.transfer===3?"selected":""}>3</option>
+            <option value="4" ${r.transfer===4?"selected":""}>4</option>
+          </select>
+        </label>
+      </div>
+
+      <label style="display:block;margin-top:18px">
+        <b>Observación docente</b>
+        <textarea id="student_rc"
+          style="width:100%;min-height:110px;margin-top:8px"
+          placeholder="Registre observaciones sobre el proceso de aprendizaje.">${esc(r.comment||"")}</textarea>
+      </label>
+
+      <div style="margin-top:16px">
+        <button class="primary"
+          onclick="saveStudentRubric('${userId}',${sessionNo})">
+          Guardar valoración
+        </button>
+      </div>
+    `;
+  })()}
+</div>
 
     <button class="secondary" onclick="renderTeacher()">
       ← Volver al Panel docente
