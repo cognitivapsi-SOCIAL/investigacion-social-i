@@ -546,7 +546,7 @@ function openStudentSession(userId,sessionNo){
   );
 
   let name=student?.profile?.name?.fullName||"Estudiante";
-
+let analytics=getStudentAnalytics(userId);
   let status="Sin actividad";
 
   if(submission?.state==="CREATED")status="Pendiente";
