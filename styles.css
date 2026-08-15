@@ -135,3 +135,74 @@
     text-align:left;
   }
 }
+/* V9.2.3c - Matriz de seguimiento por trayecto */
+
+.matrix-student-row{
+  display:grid;
+  grid-template-columns:220px 1fr;
+  gap:16px;
+  align-items:center;
+  padding:12px 0;
+  border-bottom:1px solid #e5e7eb;
+}
+
+.matrix-student-name{
+  font-weight:700;
+  font-size:14px;
+  line-height:1.3;
+}
+
+.matrix-session-cells{
+  display:grid;
+  grid-template-columns:repeat(8, minmax(78px,1fr));
+  gap:8px;
+}
+
+.matrix-cell{
+  padding:10px 6px;
+  border-radius:8px;
+  text-align:center;
+  border:1px solid #dfe7ef;
+}
+
+.matrix-cell small{
+  display:block;
+  font-weight:700;
+  margin-bottom:4px;
+}
+
+.matrix-cell span{
+  display:block;
+  font-size:12px;
+}
+
+.matrix-pending{
+  background:#fff8e8;
+}
+
+.matrix-turned{
+  background:#eef8f0;
+}
+
+.matrix-returned{
+  background:#eef4ff;
+}
+
+.matrix-reclaimed{
+  background:#fff0f0;
+}
+
+.matrix-none{
+  background:#f7f7f7;
+}
+
+@media(max-width:900px){
+  .matrix-student-row{
+    grid-template-columns:1fr;
+  }
+
+  .matrix-session-cells{
+    overflow-x:auto;
+    grid-template-columns:repeat(8, 90px);
+  }
+}
