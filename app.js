@@ -219,22 +219,27 @@ function renderTeacher(){
  let classroomPending=
    submissions.length-classroomDelivered;let activitySummary=classroomActivitySummary();
 
-let activityRows=activitySummary.map(a=>{
-  let sessionLabel=a.sessionNo
-    ?`S${a.sessionNo} · ${esc(sessionByNo(a.sessionNo)?.title||"Sesión")}`
-    :"Sin sesión vinculada";
+let activityRows=activitySummary
+  .sort((a,b)=>(Number(a.sessionNo)||999)-(Number(b.sessionNo)||999))
+  .map(a=>{
+    let sessionTitle=a.sessionNo
+      ?esc(sessionByNo(a.sessionNo)?.title||"Sesión")
+      :"Sin sesión vinculada";
 
-  return `<div class="evidence-row">
-    <div>
-      <small>${sessionLabel}</small>
-      <b>${esc(a.title)}</b>
-    </div>
-    <div>
-      <span>${a.total} estudiantes</span><br>
-      <span>${a.delivered} entregada(s) · ${a.pending} pendiente(s)</span>
-    </div>
-  </div>`;
-}).join("");
+    let classroomTitle=esc(a.title||"Actividad");
+
+    return `<div class="evidence-row">
+      <div>
+        <small>${a.sessionNo?`SESIÓN ${a.sessionNo}`:"SIN VINCULAR"}</small>
+        <b>${sessionTitle}</b>
+        <em>Actividad Classroom: ${classroomTitle}</em>
+      </div>
+      <div>
+        <strong>${a.total} estudiantes</strong><br>
+        <span>${a.delivered} entregada(s) · ${a.pending} pendiente(s)</span>
+      </div>
+    </div>`;
+  }).join("");
 
  app(layout(`
    <div class="topbar">
