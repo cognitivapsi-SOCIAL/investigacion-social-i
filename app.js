@@ -349,6 +349,11 @@ let activityRows=activitySummary
   <h2>Lista de estudiantes</h2>
   ${classroomStudentRows||'<p class="lead">Aún no se recuperaron estudiantes desde Classroom.</p>'}
 </div>
+<div class="panel">
+  <p class="eyebrow">MATRIZ DE SEGUIMIENTO</p>
+  <h2>Trayecto I · Sesiones 1 a 8</h2>
+  ${trajectory1Matrix||'<p class="lead">Aún no existen datos para construir la matriz.</p>'}
+</div>
    <div class="panel">
   <p class="eyebrow">SEGUIMIENTO POR ACTIVIDAD</p>
   <h2>Actividades de Classroom</h2>
