@@ -8,7 +8,7 @@ function save(){localStorage.setItem("is1_portable_state",JSON.stringify(state))
 function app(html){document.getElementById("app").innerHTML=html}
 function sessionByNo(n){return D.sessions.find(s=>s.no===Number(n))}
 function layout(content,active="inicio",role=state.role){
-  return `<div class="layout"><aside class="sidebar"><div class="brand"><div class="logo">IS</div><div><strong>Investigación Social I</strong><small>Portable · sin instalación</small></div></div>
+  return `<div class="layout"><aside class="sidebar"><div class="brand"><div class="logo">IS</div><div><strong>Investigación Social I</strong><small>Plataforma de aprendizaje · Web</small></div></div>
   <button class="nav ${active==="inicio"?"active":""}" onclick="renderHome()">Inicio</button>
   ${role==="student"?`<button class="nav ${active==="portfolio"?"active":""}" onclick="renderPortfolio()">Mi portafolio</button><button class="nav ${active==="project"?"active":""}" onclick="renderProject()">Mi proyecto</button><button class="nav ${active==="analytics"?"active":""}" onclick="renderAnalytics()">Mi evolución</button><button class="nav ${active==="classroom"?"active":""}" onclick="renderClassroom()">Google Classroom</button>`:""}
   ${role==="teacher"?`<button class="nav ${active==="teacher"?"active":""}" onclick="renderTeacher()">Panel docente</button><button class="nav ${active==="classroom"?"active":""}" onclick="renderClassroom()">Google Classroom</button>`:""}
