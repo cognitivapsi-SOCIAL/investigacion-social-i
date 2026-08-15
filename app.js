@@ -34,7 +34,14 @@ function login(){
  </div></div>`)
 }
 }function chooseRole(r){state.role=r;save();r==="teacher"?renderTeacher():renderHome()}
-function logout(){state.role=null;save();login()}function loginWithGoogle(){
+function logout(){
+ state.role=null;
+ state.user=null;
+ googleToken="";
+ sessionStorage.removeItem("is1_google_token");
+ save();
+ login()
+}function loginWithGoogle(){
  loadGoogleIdentity(()=>{
    let tc=google.accounts.oauth2.initTokenClient({
      client_id:CLASSROOM_CONFIG.OAUTH_CLIENT_ID,
