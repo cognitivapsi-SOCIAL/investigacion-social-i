@@ -275,3 +275,24 @@
   font-style:normal;
   opacity:.75;
 }
+/* Estado pedagógico dentro de la matriz */
+
+.matrix-cell{
+  min-height:72px;
+  height:auto;
+  overflow:visible;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+
+.matrix-cell em{
+  display:block !important;
+  margin-top:5px;
+  font-size:10px;
+  line-height:1.15;
+  font-style:normal;
+  opacity:.75;
+  white-space:nowrap;
+}
