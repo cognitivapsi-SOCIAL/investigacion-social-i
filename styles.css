@@ -206,3 +206,46 @@
     grid-template-columns:repeat(8, 90px);
   }
 }
+/* V9.2.3d - Trayectos plegables */
+
+.trajectory-panel{
+  overflow:hidden;
+}
+
+.trajectory-summary{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  cursor:pointer;
+  list-style:none;
+}
+
+.trajectory-summary::-webkit-details-marker{
+  display:none;
+}
+
+.trajectory-summary h2{
+  margin-bottom:0;
+}
+
+.trajectory-toggle{
+  font-size:13px;
+  font-weight:700;
+  white-space:nowrap;
+  padding:8px 12px;
+  border-radius:8px;
+  background:#eef3f8;
+}
+
+.trajectory-content{
+  margin-top:24px;
+}
+
+.trajectory-panel[open] .trajectory-toggle::after{
+  content:" ▲";
+}
+
+.trajectory-panel:not([open]) .trajectory-toggle::after{
+  content:" ▼";
+}
