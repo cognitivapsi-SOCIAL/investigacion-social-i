@@ -196,11 +196,9 @@ function classroomActivitySummary(){
 }
 function renderTeacher(){
   let classroomStudents=state.classroomStudents||[];
-
-let studentRows=classroomStudents.map(st=>{
+let classroomStudentRows=classroomStudents.map(st=>{
   let name=st.profile?.name?.fullName||"Estudiante";
   let userId=st.userId||st.profile?.id||"";
-
   return `<div class="classroom-student-row">
     <div>
       <small>ESTUDIANTE</small>
@@ -243,10 +241,7 @@ let studentRows=classroomStudents.map(st=>{
     sessions
   };
 });
-
 let evNums=Object.keys(state.evidence).map(Number).sort((a,b)=>a-b);
- let evNums=Object.keys(state.evidence).map(Number).sort((a,b)=>a-b);
-
  let rs=Object.values(state.rubrics), av=[0,0,0];
  if(rs.length){
    rs.forEach(r=>{
@@ -320,7 +315,7 @@ let activityRows=activitySummary
 <div class="panel">
   <p class="eyebrow">ESTUDIANTES DE CLASSROOM</p>
   <h2>Lista de estudiantes</h2>
-  ${studentRows||'<p class="lead">Aún no se recuperaron estudiantes desde Classroom.</p>'}
+  ${classroomStudentRows||'<p class="lead">Aún no se recuperaron estudiantes desde Classroom.</p>'}
 </div>
    <div class="panel">
   <p class="eyebrow">SEGUIMIENTO POR ACTIVIDAD</p>
