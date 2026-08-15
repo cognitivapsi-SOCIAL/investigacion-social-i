@@ -308,3 +308,37 @@
 .matrix-not-evaluated em{
   opacity:.65;
 }
+.evolution-section{
+  margin-top:24px;
+}
+
+.evolution-section h3{
+  margin-bottom:12px;
+}
+
+.evolution-row{
+  display:grid;
+  grid-template-columns:120px repeat(4,1fr);
+  gap:12px;
+  align-items:center;
+  padding:12px 0;
+  border-bottom:1px solid #e5e7eb;
+}
+
+.evolution-row > div{
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+}
+
+.evolution-row span,
+.evolution-row small{
+  font-size:11px;
+  opacity:.7;
+}
+
+@media(max-width:800px){
+  .evolution-row{
+    grid-template-columns:1fr 1fr;
+  }
+}
