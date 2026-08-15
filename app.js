@@ -41,7 +41,9 @@ function logout(){
  sessionStorage.removeItem("is1_google_token");
  save();
  login()
-}function loginWithGoogle(){
+}
+
+function loginWithGoogle(){
  loadGoogleIdentity(()=>{
    let tc=google.accounts.oauth2.initTokenClient({
      client_id:CLASSROOM_CONFIG.OAUTH_CLIENT_ID,
