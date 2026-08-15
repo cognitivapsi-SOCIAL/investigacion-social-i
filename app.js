@@ -25,62 +25,31 @@ function login(){
  </section>
  <section class="access">
    <h2>Ingresar</h2>
-   <p class="small">Acceda con su cuenta Google.</p>
-   <button class="role-btn" onclick="loginWithGoogle()">
-     <b>Ingresar con Google</b><br>
-     <span class="small">Identificación personal y acceso a la plataforma</span>
+   <p class="small">Seleccione su perfil para ingresar.</p>
+
+   <button class="role-btn" onclick="chooseRole('student')">
+     <b>Estudiante</b><br>
+     <span class="small">Sesiones, cuaderno, portafolio y proyecto</span>
+   </button>
+
+   <button class="role-btn" onclick="chooseRole('teacher')">
+     <b>Docente</b><br>
+     <span class="small">Seguimiento, rúbricas, analítica y Classroom</span>
    </button>
  </section>
  </div></div>`)
 }
-}function chooseRole(r){state.role=r;save();r==="teacher"?renderTeacher():renderHome()}
-function logout(){
- state.role=null;
- state.user=null;
- googleToken="";
- sessionStorage.removeItem("is1_google_token");
+
+function chooseRole(r){
+ state.role=r;
  save();
- login()
+ r==="teacher"?renderTeacher():renderHome()
 }
 
-function loginWithGoogle(){
- loadGoogleIdentity(()=>{
-   let tc=google.accounts.oauth2.initTokenClient({
-     client_id:CLASSROOM_CONFIG.OAUTH_CLIENT_ID,
-     scope:"openid email profile",
-     callback:async r=>{
-       if(r.error)return alert("OAuth: "+r.error);
-       try{
-         let res=await fetch("https://openidconnect.googleapis.com/v1/userinfo",{
-           headers:{Authorization:"Bearer "+r.access_token}
-         });
-         let u=await res.json();
-         if(!res.ok)throw new Error("No se pudo recuperar la identidad del usuario.");
-
-         state.user={
-           id:u.sub||"",
-           name:u.name||u.email||"Usuario",
-           email:u.email||""
-         };
-
-         state.role=(state.user.email||"").toLowerCase()==="jose.rios@umss.edu"
-           ?"teacher"
-           :"student";
-
-         save();
-
-         state.role==="teacher"
-           ?renderTeacher()
-           :renderHome();
-
-       }catch(e){
-         alert(e.message)
-       }
-     }
-   });
-
-   tc.requestAccessToken({prompt:"consent"})
- })
+function logout(){
+ state.role=null;
+ save();
+ login()
 }
 function renderHome(){
  let done=Object.keys(state.evidence).length, pct=Math.round(done/32*100);
