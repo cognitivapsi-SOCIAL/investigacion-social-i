@@ -241,6 +241,38 @@ let classroomStudentRows=classroomStudents.map(st=>{
     sessions
   };
 });
+let trajectory1Matrix=classroomMatrix.map(st=>{
+  let cells=st.sessions
+    .filter(s=>s.trajectory===1)
+    .map(s=>{
+      let label="Sin actividad";
+      let cls="matrix-none";
+
+      if(s.state==="CREATED"){
+        label="Pendiente";
+        cls="matrix-pending";
+      }else if(s.state==="TURNED_IN"){
+        label="Entregada";
+        cls="matrix-turned";
+      }else if(s.state==="RETURNED"){
+        label="Devuelta";
+        cls="matrix-returned";
+      }else if(s.state==="RECLAIMED_BY_STUDENT"){
+        label="Retirada";
+        cls="matrix-reclaimed";
+      }
+
+      return `<div class="matrix-cell ${cls}">
+        <small>S${s.session}</small>
+        <span>${label}</span>
+      </div>`;
+    }).join("");
+
+  return `<div class="matrix-student-row">
+    <div class="matrix-student-name">${esc(st.name)}</div>
+    <div class="matrix-session-cells">${cells}</div>
+  </div>`;
+}).join("");
 let evNums=Object.keys(state.evidence).map(Number).sort((a,b)=>a-b);
  let rs=Object.values(state.rubrics), av=[0,0,0];
  if(rs.length){
