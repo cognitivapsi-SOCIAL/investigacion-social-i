@@ -298,7 +298,7 @@ let activityRows=activitySummary
      <div class="stats">
        <article>
          <span>Estudiantes</span>
-         <b>${classroomStudents}</b>
+         <b>${classroomStudentCount}</b>
        </article>
 
        <article>
