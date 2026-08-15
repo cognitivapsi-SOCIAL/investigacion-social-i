@@ -243,7 +243,7 @@ let studentRows=classroomStudents.map(st=>{
 
  let submissions=state.classroomSubmissions||[];
 
- let classroomStudentsCount=
+ let classroomStudentCount=
    new Set(submissions.map(s=>s.userId).filter(Boolean)).size;
 
  let classroomActivities=
