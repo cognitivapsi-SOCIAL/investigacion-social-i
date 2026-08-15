@@ -92,3 +92,46 @@
     text-align:left;
   }
 }
+/* V9.2.3 - Estudiantes de Classroom */
+
+.classroom-student-row{
+  display:grid;
+  grid-template-columns:1fr 220px;
+  gap:20px;
+  align-items:center;
+  padding:14px 18px;
+  margin:8px 0;
+  border:1px solid #dfe7ef;
+  border-radius:10px;
+  background:#fff;
+}
+
+.classroom-student-row small{
+  display:block;
+  margin-bottom:4px;
+  font-size:11px;
+  letter-spacing:.06em;
+}
+
+.classroom-student-row b{
+  display:block;
+  font-size:16px;
+}
+
+.classroom-student-row > div:last-child{
+  text-align:right;
+}
+
+.classroom-student-row > div:last-child span{
+  font-size:13px;
+}
+
+@media(max-width:700px){
+  .classroom-student-row{
+    grid-template-columns:1fr;
+  }
+
+  .classroom-student-row > div:last-child{
+    text-align:left;
+  }
+}
