@@ -212,23 +212,7 @@ let studentRows=classroomStudents.map(st=>{
     </div>
   </div>`;
 }).join("");
-  let studentRows=classroomStudents.map(st=>{
-  let name=st.profile?.name?.fullName||"Estudiante";
-  let userId=st.userId||st.profile?.id||"";
-
-  return `<div class="classroom-student-row">
-    <div>
-      <small>ESTUDIANTE</small>
-      <b>${esc(name)}</b>
-    </div>
-    <div>
-      <small>ID CLASSROOM</small>
-      <span>${esc(userId)}</span>
-    </div>
-  </div>`;
-}).join("");
-
-let classroomMatrix=classroomStudents.map(st=>{
+  let classroomMatrix=classroomStudents.map(st=>{
   let userId=st.userId||st.profile?.id||"";
   let name=st.profile?.name?.fullName||"Estudiante";
 
