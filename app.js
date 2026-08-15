@@ -283,10 +283,24 @@ let trajectoryMatrices=[1,2,3,4].map(trayecto=>{
           cls="matrix-reclaimed";
         }
 
-        return `<button class="matrix-cell ${cls}"
+let rubric=getStudentRubric(st.userId,s.session);
+
+let pedagogicalLabel="Sin valorar";
+
+if(rubric.evaluated){
+  let total=
+    Number(rubric.selection||0)+
+    Number(rubric.processing||0)+
+    Number(rubric.transfer||0);
+
+  pedagogicalLabel=`Valorada ${total}/12`;
+}
+
+return `<button class="matrix-cell ${cls}"
   onclick="openStudentSession('${st.userId}',${s.session})">
   <small>S${s.session}</small>
   <span>${label}</span>
+  <em>${pedagogicalLabel}</em>
 </button>`;
       }).join("");
 
