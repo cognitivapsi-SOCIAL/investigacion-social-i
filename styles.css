@@ -7,3 +7,26 @@
 
 /* V9 Classroom */
 .coursework-card{background:#f7f9fb;border:1px solid #dfe6ed;border-radius:12px;padding:17px;margin:11px 0}.coursework-head{display:flex;justify-content:space-between;gap:15px;align-items:flex-start}.coursework-head h3{margin:7px 0}.coursework-head small{color:#718096}.coursework-card>p{color:#5e6d7d;line-height:1.55}.coursework-meta{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.coursework-meta span{background:#e9eff5;color:#536474;padding:5px 8px;border-radius:999px;font-size:11px}.mapping-label{display:grid;gap:6px;margin-top:12px;font-weight:700}.mapping-label select{padding:10px;border:1px solid #cbd5df;border-radius:8px;background:white}.mapped-note{margin-top:9px;background:#e8f3eb;color:#286d45;padding:9px;border-radius:8px;font-size:12px;font-weight:700}@media(max-width:800px){.coursework-head{display:block}}
+.evidence-row > div:first-child small,
+.evidence-row > div:first-child b,
+.evidence-row > div:first-child em{
+  display:block;
+}
+
+.evidence-row > div:first-child small{
+  margin-bottom:4px;
+  letter-spacing:.04em;
+}
+
+.evidence-row > div:first-child b{
+  margin-bottom:4px;
+}
+
+.evidence-row > div:first-child em{
+  margin-top:2px;
+  line-height:1.4;
+}
+
+.evidence-row > div:last-child{
+  margin-top:8px;
+}
