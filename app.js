@@ -575,6 +575,7 @@ function openStudentSession(userId,sessionNo){
 
   let name=student?.profile?.name?.fullName||"Estudiante";
 let analytics=getStudentAnalytics(userId);
+  let trend=getStudentTrend(userId);
   let evolutionRows=analytics.records.map(r=>{
   let total=r.selection+r.processing+r.transfer;
   return `
