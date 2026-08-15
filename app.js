@@ -295,27 +295,27 @@ let activityRows=activitySummary
   ${activityRows||'<p class="lead">Aún no hay actividades sincronizadas.</p>'}
 </div>
 
-     <div class="stats">
-       <article>
-         <span>Estudiantes</span>
-         <b>${classroomStudentCount}</b>
-       </article>
+<div class="stats">
+  <article>
+    <span>Estudiantes</span>
+    <b>${classroomStudentCount}</b>
+  </article>
 
-       <article>
-         <span>Actividades</span>
-         <b>${classroomActivities}</b>
-       </article>
+  <article>
+    <span>Actividades</span>
+    <b>${classroomActivities}</b>
+  </article>
 
-       <article>
-         <span>Entregadas</span>
-         <b>${classroomDelivered}</b>
-       </article>
+  <article>
+    <span>Entregadas</span>
+    <b>${classroomDelivered}</b>
+  </article>
 
-       <article>
-         <span>Pendientes</span>
-         <b>${classroomPending}</b>
-       </article>
-     </div>
+  <article>
+    <span>Pendientes</span>
+    <b>${classroomPending}</b>
+  </article>
+</div>
 
      ${submissions.length
        ?`<p class="lead">${submissions.length} registros sincronizados desde Google Classroom.</p>`
