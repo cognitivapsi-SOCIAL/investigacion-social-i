@@ -217,14 +217,16 @@ let classroomStudentRows=classroomStudents.map(st=>{
   let sessions=D.sessions.map(s=>{
     let no=s.no;
 
-    let courseWorkId=Object.keys(state.classroomMap||{}).find(
-      id=>Number(state.classroomMap[id])===no
-    );
+let courseWorkIds=Object.keys(state.classroomMap||{}).filter(
+  id=>Number(state.classroomMap[id])===no
+);
 
-    let submission=(state.classroomSubmissions||[]).find(
-      sub=>String(sub.userId)===String(userId) &&
-           String(sub.courseWorkId)===String(courseWorkId)
-    );
+let submission=(state.classroomSubmissions||[]).find(
+  sub=>String(sub.userId)===String(userId) &&
+       courseWorkIds.some(
+         id=>String(sub.courseWorkId)===String(id)
+       )
+);
 
     return {
       session:no,
