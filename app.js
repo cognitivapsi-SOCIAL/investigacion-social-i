@@ -584,12 +584,6 @@ let analytics=getStudentAnalytics(userId);
       </div>
     </div>
 <div class="panel">
-  ... Estado Classroom ...
-  ... Trayecto ...
-  ... Sesión ...
-</div>
-
-<div class="panel">
   <p class="eyebrow">EVOLUCIÓN DEL APRENDIZAJE</p>
   <h2>Analítica individual</h2>
 
