@@ -251,3 +251,6 @@
 .trajectory-panel:not([open]) .trajectory-toggle::after{
   content:" ▼";
 }
+.trajectory-content{
+  overflow-x:auto;
+}
