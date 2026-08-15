@@ -574,5 +574,21 @@ function reviewEvidence(no){
  let e=state.evidence[no],r=state.rubrics[no]||{s:3,p:3,t:3,comment:""},s=sessionByNo(no);
  app(layout(`<div class="topbar"><div><p class="eyebrow">RÚBRICA DOCENTE</p><h2>Sesión ${no}</h2></div></div><div class="panel"><h3>${s.title}</h3><p><b>Selección:</b> ${e.selection}</p><p><b>Procesamiento:</b> ${e.processing}</p><p><b>Transferencia:</b> ${e.transfer}</p><p><b>Autoevaluación:</b> ${e.self?e.self.join(" / "):"Sin registro"}</p></div><div class="panel"><h2>Valoración docente</h2><div class="score-grid"><label>Selección<select id="rs">${[1,2,3,4].map(x=>`<option ${x==r.s?"selected":""}>${x}</option>`).join("")}</select></label><label>Procesamiento<select id="rp">${[1,2,3,4].map(x=>`<option ${x==r.p?"selected":""}>${x}</option>`).join("")}</select></label><label>Transferencia<select id="rt">${[1,2,3,4].map(x=>`<option ${x==r.t?"selected":""}>${x}</option>`).join("")}</select></label></div><textarea id="rc" style="width:100%;min-height:100px;margin-top:10px">${r.comment||""}</textarea><br><button class="primary" onclick="saveRubric(${no})">Guardar rúbrica</button></div>`,"teacher","teacher"))
 }
+function saveStudentRubric(userId,sessionNo){
+  let key=studentRubricKey(userId,sessionNo);
+
+  state.studentRubrics[key]={
+    selection:+document.getElementById("student_rs").value,
+    processing:+document.getElementById("student_rp").value,
+    transfer:+document.getElementById("student_rt").value,
+    comment:document.getElementById("student_rc").value
+  };
+
+  save();
+
+  alert("Valoración individual guardada.");
+
+  openStudentSession(userId,sessionNo);
+}
 function saveRubric(no){state.rubrics[no]={s:+rs.value,p:+rp.value,t:+rt.value,comment:rc.value};save();alert("Rúbrica guardada.");renderTeacher()}
 if(!state.role)login();else state.role==="teacher"?renderTeacher():renderHome();
