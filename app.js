@@ -195,6 +195,23 @@ function classroomActivitySummary(){
  });
 }
 function renderTeacher(){
+  let classroomStudents=state.classroomStudents||[];
+
+let studentRows=classroomStudents.map(st=>{
+  let name=st.profile?.name?.fullName||"Estudiante";
+  let userId=st.userId||st.profile?.id||"";
+
+  return `<div class="classroom-student-row">
+    <div>
+      <small>ESTUDIANTE</small>
+      <b>${esc(name)}</b>
+    </div>
+    <div>
+      <small>ID CLASSROOM</small>
+      <span>${esc(userId)}</span>
+    </div>
+  </div>`;
+}).join("");
  let evNums=Object.keys(state.evidence).map(Number).sort((a,b)=>a-b);
 
  let rs=Object.values(state.rubrics), av=[0,0,0];
