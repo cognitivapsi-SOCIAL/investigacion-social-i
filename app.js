@@ -281,8 +281,8 @@ let evNums=Object.keys(state.evidence).map(Number).sort((a,b)=>a-b);
    submissions.filter(s=>s.state==="TURNED_IN"||s.state==="RETURNED").length;
 
  let classroomPending=
-   submissions.length-classroomDelivered;let activitySummary=classroomActivitySummary();
-
+   submissions.length-classroomDelivered;
+let activitySummary=classroomActivitySummary();
 let activityRows=activitySummary
   .sort((a,b)=>(Number(a.sessionNo)||999)-(Number(b.sessionNo)||999))
   .map(a=>{
