@@ -521,11 +521,12 @@ function openStudentSession(userId,sessionNo){
         <label>
           Selección
           <select id="student_rs">
-            <option value="1" ${r.selection===1?"selected":""}>1</option>
-            <option value="2" ${r.selection===2?"selected":""}>2</option>
-            <option value="3" ${r.selection===3?"selected":""}>3</option>
-            <option value="4" ${r.selection===4?"selected":""}>4</option>
-          </select>
+  <option value="0" ${r.selection===0?"selected":""}>Sin valorar</option>
+  <option value="1" ${r.selection===1?"selected":""}>1</option>
+  <option value="2" ${r.selection===2?"selected":""}>2</option>
+  <option value="3" ${r.selection===3?"selected":""}>3</option>
+  <option value="4" ${r.selection===4?"selected":""}>4</option>
+</select>
         </label>
 
         <label>
