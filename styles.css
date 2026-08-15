@@ -30,3 +30,51 @@
 .evidence-row > div:last-child{
   margin-top:8px;
 }
+/* V9.2 - Seguimiento Classroom */
+
+.evidence-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:24px;
+  padding:18px 20px;
+  margin:10px 0;
+  border:1px solid #dfe7ef;
+  border-radius:12px;
+  background:#fff;
+}
+
+.evidence-row > div:first-child{
+  flex:1;
+  min-width:0;
+}
+
+.evidence-row > div:first-child small{
+  display:block;
+  margin-bottom:6px;
+  font-size:12px;
+  letter-spacing:.06em;
+}
+
+.evidence-row > div:first-child b{
+  display:block;
+  margin-bottom:6px;
+  font-size:16px;
+}
+
+.evidence-row > div:first-child em{
+  display:block;
+  line-height:1.45;
+  font-size:14px;
+}
+
+.evidence-row > div:last-child{
+  min-width:170px;
+  text-align:right;
+  margin-top:0;
+}
+
+.evidence-row > div:last-child strong{
+  display:block;
+  margin-bottom:5px;
+}
