@@ -295,8 +295,10 @@ if(rubric.evaluated){
 
   pedagogicalLabel=`Valorada ${total}/12`;
 }
-
-return `<button class="matrix-cell ${cls}"
+let pedagogicalClass=rubric.evaluated
+  ?"matrix-evaluated"
+  :"matrix-not-evaluated";
+return `<button class="matrix-cell ${cls} ${pedagogicalClass}"
   onclick="openStudentSession('${st.userId}',${s.session})">
   <small>S${s.session}</small>
   <span>${label}</span>
