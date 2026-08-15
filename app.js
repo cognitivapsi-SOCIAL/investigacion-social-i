@@ -212,6 +212,55 @@ let studentRows=classroomStudents.map(st=>{
     </div>
   </div>`;
 }).join("");
+  let studentRows=classroomStudents.map(st=>{
+  let name=st.profile?.name?.fullName||"Estudiante";
+  let userId=st.userId||st.profile?.id||"";
+
+  return `<div class="classroom-student-row">
+    <div>
+      <small>ESTUDIANTE</small>
+      <b>${esc(name)}</b>
+    </div>
+    <div>
+      <small>ID CLASSROOM</small>
+      <span>${esc(userId)}</span>
+    </div>
+  </div>`;
+}).join("");
+
+let classroomMatrix=classroomStudents.map(st=>{
+  let userId=st.userId||st.profile?.id||"";
+  let name=st.profile?.name?.fullName||"Estudiante";
+
+  let sessions=D.sessions.map(s=>{
+    let no=s.no;
+
+    let courseWorkId=Object.keys(state.classroomMap||{}).find(
+      id=>Number(state.classroomMap[id])===no
+    );
+
+    let submission=(state.classroomSubmissions||[]).find(
+      sub=>String(sub.userId)===String(userId) &&
+           String(sub.courseWorkId)===String(courseWorkId)
+    );
+
+    return {
+      session:no,
+      trajectory:s.trayecto,
+      week:s.week,
+      title:s.title,
+      state:submission?.state||"SIN_REGISTRO"
+    };
+  });
+
+  return {
+    userId,
+    name,
+    sessions
+  };
+});
+
+let evNums=Object.keys(state.evidence).map(Number).sort((a,b)=>a-b);
  let evNums=Object.keys(state.evidence).map(Number).sort((a,b)=>a-b);
 
  let rs=Object.values(state.rubrics), av=[0,0,0];
