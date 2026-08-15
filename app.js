@@ -110,37 +110,56 @@ function getStudentTrend(userId){
 }
 function getStudentAlerts(userId){
   let analytics=getStudentAnalytics(userId);
-  let trend=getStudentTrend(userId);
-  let studentAlerts=getStudentAlerts(userId);
   let alerts=[];
 
-  if(analytics.count<2){
+  if(analytics.records.length<3){
     return alerts;
   }
 
-  if(trend.selection==="Retroceso"){
-    alerts.push({
-      type:"warning",
-      dimension:"Selección",
-      message:"Se observa retroceso en la selección de información relevante."
-    });
+  let recent=analytics.records.slice(-3);
+
+  function analyzeDimension(key,label){
+    let values=recent.map(r=>Number(r[key]||0));
+
+    let first=values[0];
+    let second=values[1];
+    let last=values[2];
+
+    let average=(first+second+last)/3;
+
+    if(average<2){
+      alerts.push({
+        level:"priority",
+        dimension:label,
+        message:`Desempeño bajo sostenido en ${label} durante las últimas tres sesiones valoradas.`,
+        action:`Revisar evidencias recientes y planificar una intervención específica en ${label}.`
+      });
+      return;
+    }
+
+    if(first>second && second>last){
+      alerts.push({
+        level:"attention",
+        dimension:label,
+        message:`Se observa un descenso consecutivo en ${label}.`,
+        action:`Revisar la última producción y contrastarla con las dos sesiones anteriores.`
+      });
+      return;
+    }
+
+    if(last<=first-2){
+      alerts.push({
+        level:"attention",
+        dimension:label,
+        message:`La valoración reciente de ${label} muestra una caída significativa.`,
+        action:`Conversar con el estudiante y revisar posibles dificultades en la sesión reciente.`
+      });
+    }
   }
 
-  if(trend.processing==="Retroceso"){
-    alerts.push({
-      type:"warning",
-      dimension:"Procesamiento",
-      message:"Se observa retroceso en el procesamiento y organización de la información."
-    });
-  }
-
-  if(trend.transfer==="Retroceso"){
-    alerts.push({
-      type:"warning",
-      dimension:"Transferencia",
-      message:"Se observa retroceso en la transferencia de los aprendizajes."
-    });
-  }
+  analyzeDimension("selection","Selección");
+  analyzeDimension("processing","Procesamiento");
+  analyzeDimension("transfer","Transferencia");
 
   return alerts;
 }
