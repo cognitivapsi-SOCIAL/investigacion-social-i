@@ -352,6 +352,19 @@ function classroomActivitySummary(){
 }
 function renderTeacher(){
   let classroomStudents=state.classroomStudents||[];
+  let teacherStudentAlerts=classroomStudents.flatMap(st=>{
+  let userId=st.userId||st.profile?.id||"";
+  let name=st.profile?.name?.fullName||"Estudiante";
+
+  return getStudentAlerts(userId).map(a=>({
+    userId,
+    name,
+    level:a.level,
+    dimension:a.dimension,
+    message:a.message,
+    action:a.action
+  }));
+});
 let classroomStudentRows=classroomStudents.map(st=>{
   let name=st.profile?.name?.fullName||"Estudiante";
   let userId=st.userId||st.profile?.id||"";
