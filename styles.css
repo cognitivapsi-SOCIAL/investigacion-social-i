@@ -296,3 +296,15 @@
   opacity:.75;
   white-space:nowrap;
 }
+.matrix-evaluated{
+  border-width:2px;
+}
+
+.matrix-evaluated em{
+  font-weight:700;
+  opacity:1;
+}
+
+.matrix-not-evaluated em{
+  opacity:.65;
+}
