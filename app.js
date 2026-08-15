@@ -619,10 +619,7 @@ let analytics=getStudentAnalytics(userId);
 
 <div class="panel">
   <h2>Seguimiento pedagógico</h2>
-    <div class="panel">
-  <h2>Seguimiento pedagógico</h2>
-
-  ${(()=>{
+ ${(()=>{
     let r=getStudentRubric(userId,sessionNo);
 
     return `
