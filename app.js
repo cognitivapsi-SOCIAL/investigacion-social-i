@@ -3,7 +3,7 @@ let googleToken=sessionStorage.getItem("is1_google_token")||"";
 
 const D=window.APP_DATA;
 let state=JSON.parse(localStorage.getItem("is1_portable_state")||'{"role":null,"evidence":{},"rubrics":{},"project":{}}');
-state.evidence=state.evidence||{}; state.rubrics=state.rubrics||{}; state.project=state.project||{}; state.classroomMap=state.classroomMap||{};state.classroomCourseWork=state.classroomCourseWork||[];
+state.evidence=state.evidence||{}; state.rubrics=state.rubrics||{}; state.project=state.project||{}; state.classroomMap=state.classroomMap||{};state.classroomSubmissions=state.classroomSubmissions||[];state.classroomCourseWork=state.classroomCourseWork||[];
 function save(){localStorage.setItem("is1_portable_state",JSON.stringify(state))}
 state.user=state.user||null;
 function app(html){document.getElementById("app").innerHTML=html}
