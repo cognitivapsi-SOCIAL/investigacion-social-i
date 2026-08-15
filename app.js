@@ -280,11 +280,19 @@ let trajectoryMatrices=[1,2,3,4].map(trayecto=>{
     </div>`;
   }).join("");
 
-  return `<div class="panel">
-    <p class="eyebrow">MATRIZ DE SEGUIMIENTO</p>
-    <h2>Trayecto ${trayecto} · Sesiones ${start} a ${end}</h2>
+  return `<details class="panel trajectory-panel" ${trayecto===1?"open":""}>
+  <summary class="trajectory-summary">
+    <div>
+      <p class="eyebrow">MATRIZ DE SEGUIMIENTO</p>
+      <h2>Trayecto ${trayecto} · Sesiones ${start} a ${end}</h2>
+    </div>
+    <span class="trajectory-toggle">Ver seguimiento</span>
+  </summary>
+
+  <div class="trajectory-content">
     ${rows||'<p class="lead">Aún no existen datos para construir la matriz.</p>'}
-  </div>`;
+  </div>
+</details>`;
 }).join("");
 let evNums=Object.keys(state.evidence).map(Number).sort((a,b)=>a-b);
  let rs=Object.values(state.rubrics), av=[0,0,0];
