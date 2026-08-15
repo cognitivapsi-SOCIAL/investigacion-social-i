@@ -154,8 +154,10 @@
 
 .matrix-session-cells{
   display:grid;
-  grid-template-columns:repeat(8, minmax(78px,1fr));
+  grid-template-columns:repeat(8, 92px);
   gap:8px;
+  overflow-x:auto;
+  padding-bottom:6px;
 }
 
 .matrix-cell{
