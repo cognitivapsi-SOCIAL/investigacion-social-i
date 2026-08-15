@@ -27,6 +27,7 @@ function renderHome(){
 }
 function renderSession(no){
  const s=sessionByNo(no), ev=state.evidence[no]||{};
+  const linkedClassroom=(state.classroomCourseWork||[]).filter(cw=>Number(state.classroomMap?.[cw.id])===Number(no));
  app(layout(`<div class="topbar"><div><p class="eyebrow">TRAYECTO ${s.trayecto} · SEMANA ${s.week}</p><h2>Sesión ${s.no}</h2></div></div>
  <section class="session-hero"><span class="badge">90 minutos</span><h1>${s.title}</h1><p><b>Propósito:</b> ${s.purpose}</p><p><b>Producto:</b> ${s.product}</p></section>
  <div class="tabs"><button id="tb1" class="tab active" onclick="showTab('texto')">Texto Básico</button><button id="tb2" class="tab" onclick="showTab('cuaderno')">Cuaderno</button></div>
