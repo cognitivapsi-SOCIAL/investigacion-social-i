@@ -15,10 +15,11 @@ function getStudentRubric(userId,sessionNo){
   let key=studentRubricKey(userId,sessionNo);
 
   return state.studentRubrics[key]||{
-    selection:3,
-    processing:3,
-    transfer:3,
-    comment:""
+    selection:0,
+    processing:0,
+    transfer:0,
+    comment:"",
+    evaluated:false
   };
 }
 function layout(content,active="inicio",role=state.role){
