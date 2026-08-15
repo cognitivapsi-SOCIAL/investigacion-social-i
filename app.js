@@ -228,7 +228,7 @@ let activityRows=activitySummary
 
     let classroomTitle=esc(a.title||"Actividad");
 
-    return `<div class="evidence-row">
+    return `<div class="classroom-activity-row">
       <div>
         <small>${a.sessionNo?`SESIÓN ${a.sessionNo}`:"SIN VINCULAR"}</small>
         <b>${sessionTitle}</b>
