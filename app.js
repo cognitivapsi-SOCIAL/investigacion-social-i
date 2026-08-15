@@ -217,7 +217,24 @@ function renderTeacher(){
    submissions.filter(s=>s.state==="TURNED_IN"||s.state==="RETURNED").length;
 
  let classroomPending=
-   submissions.length-classroomDelivered;
+   submissions.length-classroomDelivered;let activitySummary=classroomActivitySummary();
+
+let activityRows=activitySummary.map(a=>{
+  let sessionLabel=a.sessionNo
+    ?`S${a.sessionNo} · ${esc(sessionByNo(a.sessionNo)?.title||"Sesión")}`
+    :"Sin sesión vinculada";
+
+  return `<div class="evidence-row">
+    <div>
+      <small>${sessionLabel}</small>
+      <b>${esc(a.title)}</b>
+    </div>
+    <div>
+      <span>${a.total} estudiantes</span><br>
+      <span>${a.delivered} entregada(s) · ${a.pending} pendiente(s)</span>
+    </div>
+  </div>`;
+}).join("");
 
  app(layout(`
    <div class="topbar">
@@ -228,8 +245,10 @@ function renderTeacher(){
    </div>
 
    <div class="panel">
-     <p class="eyebrow">GOOGLE CLASSROOM</p>
-     <h2>Resumen de seguimiento</h2>
+  <p class="eyebrow">SEGUIMIENTO POR ACTIVIDAD</p>
+  <h2>Actividades de Classroom</h2>
+  ${activityRows||'<p class="lead">Aún no hay actividades sincronizadas.</p>'}
+</div>
 
      <div class="stats">
        <article>
