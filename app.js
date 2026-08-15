@@ -152,6 +152,29 @@ function renderAnalytics(){
  let rows=nums.map(n=>{let r=state.rubrics[n];return `<div class="compare-row"><b>Sesión ${n}</b><span>S ${r.s}/4 · P ${r.p}/4 · T ${r.t}/4</span><span>Total ${r.s+r.p+r.t}/12</span></div>`}).join("");
  app(layout(`<div class="topbar"><div><p class="eyebrow">ANALÍTICA LONGITUDINAL</p><h2>Mi evolución</h2></div></div><div class="stats"><article><span>Selección</span><b>${av[0]}/4</b></article><article><span>Procesamiento</span><b>${av[1]}/4</b></article><article><span>Transferencia</span><b>${av[2]}/4</b></article></div><div class="panel"><h2>Dimensión a fortalecer</h2><div class="alert-row">${min}</div></div><div class="panel"><h2>Evolución por sesión</h2>${rows||'<p class="lead">Aún no hay valoraciones docentes.</p>'}</div>`,"analytics","student"))
 }
+function classroomActivitySummary(){
+ let submissions=state.classroomSubmissions||[];
+ let work=state.classroomCourseWork||[];
+
+ return work.map(cw=>{
+   let subs=submissions.filter(s=>String(s.courseWorkId)===String(cw.id));
+   let delivered=subs.filter(s=>
+     s.state==="TURNED_IN" || s.state==="RETURNED"
+   ).length;
+
+   let pending=subs.length-delivered;
+   let sessionNo=state.classroomMap[cw.id]||"";
+
+   return {
+     id:cw.id,
+     title:cw.title||"Actividad",
+     sessionNo,
+     total:subs.length,
+     delivered,
+     pending
+   };
+ });
+}
 function renderTeacher(){
  let evNums=Object.keys(state.evidence).map(Number).sort((a,b)=>a-b);
 
