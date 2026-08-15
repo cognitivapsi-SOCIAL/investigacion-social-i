@@ -5,6 +5,7 @@ const D=window.APP_DATA;
 let state=JSON.parse(localStorage.getItem("is1_portable_state")||'{"role":null,"evidence":{},"rubrics":{},"project":{}}');
 state.evidence=state.evidence||{}; state.rubrics=state.rubrics||{}; state.project=state.project||{}; state.classroomMap=state.classroomMap||{}; state.classroomCourseWork=state.classroomCourseWork||[];
 function save(){localStorage.setItem("is1_portable_state",JSON.stringify(state))}
+state.user=state.user||null;
 function app(html){document.getElementById("app").innerHTML=html}
 function sessionByNo(n){return D.sessions.find(s=>s.no===Number(n))}
 function layout(content,active="inicio",role=state.role){
@@ -16,10 +17,62 @@ function layout(content,active="inicio",role=state.role){
   <main class="main">${content}</main></div>`
 }
 function login(){
- app(`<div class="login"><div class="loginbox"><section class="intro"><span class="badge">UMSS · Trabajo Social</span><h1>Investigación Social I</h1><p>Versión portable. No necesita Python, Flask ni instalación. Todo se guarda en este navegador.</p></section><section class="access"><h2>Ingresar</h2><p class="small">Elija un perfil de demostración.</p><button class="role-btn" onclick="chooseRole('student')"><b>Estudiante</b><br><span class="small">Sesiones, cuaderno, portafolio y evolución</span></button><button class="role-btn" onclick="chooseRole('teacher')"><b>Docente</b><br><span class="small">Evidencias, rúbricas y alertas</span></button></section></div></div>`)
+ app(`<div class="login"><div class="loginbox">
+ <section class="intro">
+   <span class="badge">UMSS · Trabajo Social</span>
+   <h1>Investigación Social I</h1>
+   <p>Aprendizaje · Portafolio · Classroom</p>
+ </section>
+ <section class="access">
+   <h2>Ingresar</h2>
+   <p class="small">Acceda con su cuenta Google.</p>
+   <button class="role-btn" onclick="loginWithGoogle()">
+     <b>Ingresar con Google</b><br>
+     <span class="small">Identificación personal y acceso a la plataforma</span>
+   </button>
+ </section>
+ </div></div>`)
 }
-function chooseRole(r){state.role=r;save();r==="teacher"?renderTeacher():renderHome()}
-function logout(){state.role=null;save();login()}
+}function chooseRole(r){state.role=r;save();r==="teacher"?renderTeacher():renderHome()}
+function logout(){state.role=null;save();login()}function loginWithGoogle(){
+ loadGoogleIdentity(()=>{
+   let tc=google.accounts.oauth2.initTokenClient({
+     client_id:CLASSROOM_CONFIG.OAUTH_CLIENT_ID,
+     scope:"openid email profile",
+     callback:async r=>{
+       if(r.error)return alert("OAuth: "+r.error);
+       try{
+         let res=await fetch("https://openidconnect.googleapis.com/v1/userinfo",{
+           headers:{Authorization:"Bearer "+r.access_token}
+         });
+         let u=await res.json();
+         if(!res.ok)throw new Error("No se pudo recuperar la identidad del usuario.");
+
+         state.user={
+           id:u.sub||"",
+           name:u.name||u.email||"Usuario",
+           email:u.email||""
+         };
+
+         state.role=(state.user.email||"").toLowerCase()==="jose.rios@umss.edu"
+           ?"teacher"
+           :"student";
+
+         save();
+
+         state.role==="teacher"
+           ?renderTeacher()
+           :renderHome();
+
+       }catch(e){
+         alert(e.message)
+       }
+     }
+   });
+
+   tc.requestAccessToken({prompt:"consent"})
+ })
+}
 function renderHome(){
  let done=Object.keys(state.evidence).length, pct=Math.round(done/32*100);
  let trs=[1,2,3,4].map(t=>`<article class="trajectory"><h3>Trayecto ${t}</h3><div class="session-grid">${D.sessions.filter(s=>s.trayecto===t).map(s=>`<div class="session-card" onclick="renderSession(${s.no})"><span>Semana ${s.week} · Sesión ${s.no}</span><b>${s.title}</b><small>${s.product}</small></div>`).join("")}</div></article>`).join("");
