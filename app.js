@@ -490,18 +490,7 @@ let evNums=Object.keys(state.evidence).map(Number).sort((a,b)=>a-b);
    });
    av=av.map(x=>(x/rs.length).toFixed(2))
  }
-
- let alerts=[];
- evNums.forEach(n=>{
-   let r=state.rubrics[n];
-   if(r){
-     if(r.s<2.5)alerts.push(`Sesión ${n}: Selección requiere refuerzo.`);
-     if(r.p<2.5)alerts.push(`Sesión ${n}: Procesamiento requiere refuerzo.`);
-     if(r.t<2.5)alerts.push(`Sesión ${n}: Transferencia requiere refuerzo.`)
-   }
- });
-
- let rows=evNums.map(n=>
+  let rows=evNums.map(n=>
    `<div class="evidence-row">
       <b>Sesión ${n} · ${sessionByNo(n).title}</b>
       <button class="secondary" onclick="reviewEvidence(${n})">Revisar</button>
@@ -630,14 +619,7 @@ ${trajectoryMatrices}
        <b>${av[2]}/4</b>
      </article>
    </div>
-
-   <div class="panel">
-     <h2>Alertas</h2>
-     ${alerts.map(a=>`<div class="alert-row">${a}</div>`).join("")||
-       '<p class="lead">Sin alertas todavía.</p>'}
-   </div>
-
-   <div class="panel">
+     <div class="panel">
      <h2>Evidencias</h2>
      ${rows||'<p class="lead">Aún no hay evidencias.</p>'}
    </div>
