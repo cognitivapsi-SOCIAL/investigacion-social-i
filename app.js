@@ -1,4 +1,4 @@
-const CLASSROOM_CONFIG={OAUTH_CLIENT_ID:"85507809759-1a0anrej5edjsajakq0h6jdlr8rlsqq3.apps.googleusercontent.com",COURSES_SCOPE:"https://www.googleapis.com/auth/classroom.courses.readonly",STUDENT_COURSEWORK_SCOPE:"https://www.googleapis.com/auth/classroom.coursework.me.readonly",TEACHER_COURSEWORK_SCOPE:"https://www.googleapis.com/auth/classroom.coursework.students.readonly"};
+const CLASSROOM_CONFIG={OAUTH_CLIENT_ID:"932039937898-hbiit2lhvbih7c19e7ph01v0fddm7b3t.apps.googleusercontent.com",COURSES_SCOPE:"https://www.googleapis.com/auth/classroom.courses.readonly",STUDENT_COURSEWORK_SCOPE:"https://www.googleapis.com/auth/classroom.coursework.me.readonly",TEACHER_COURSEWORK_SCOPE:"https://www.googleapis.com/auth/classroom.coursework.students.readonly"};
 let googleToken=sessionStorage.getItem("is1_google_token")||"";
 
 const D=window.APP_DATA;
