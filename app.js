@@ -646,6 +646,13 @@ let analytics=getStudentAnalytics(userId);
       :"Esta estudiante todavía no tiene sesiones valoradas."
     }
   </p>
+  <div class="evolution-section">
+  <h3>Evolución por sesiones</h3>
+
+  ${evolutionRows||
+    '<p class="lead">Aún no existen sesiones valoradas para mostrar la evolución.</p>'
+  }
+</div>
 </div>
 
 <div class="panel">
