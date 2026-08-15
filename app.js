@@ -1,6 +1,5 @@
 const CLASSROOM_CONFIG={OAUTH_CLIENT_ID:"932039937898-hbiit2lhvbih7c19e7ph01v0fddm7b3t.apps.googleusercontent.com",COURSES_SCOPE:"https://www.googleapis.com/auth/classroom.courses.readonly",STUDENT_COURSEWORK_SCOPE:"https://www.googleapis.com/auth/classroom.coursework.me.readonly",TEACHER_COURSEWORK_SCOPE:"https://www.googleapis.com/auth/classroom.coursework.students.readonly"};
 let googleToken=sessionStorage.getItem("is1_google_token")||"";
-
 const D=window.APP_DATA;
 let state=JSON.parse(localStorage.getItem("is1_portable_state")||'{"role":null,"evidence":{},"rubrics":{},"project":{}}');
 state.evidence=state.evidence||{}; state.rubrics=state.rubrics||{}; state.project=state.project||{}; state.classroomMap=state.classroomMap||{};state.classroomSubmissions=state.classroomSubmissions||[];state.classroomCourseWork=state.classroomCourseWork||[];
@@ -39,13 +38,11 @@ function login(){
  </section>
  </div></div>`)
 }
-
 function chooseRole(r){
  state.role=r;
  save();
  r==="teacher"?renderTeacher():renderHome()
 }
-
 function logout(){
  state.role=null;
  save();
@@ -80,7 +77,6 @@ function renderPortfolio(){
  let rows=D.sessions.map(s=>{let ev=state.evidence[s.no],r=state.rubrics[s.no];return `<div class="portfolio-row ${ev?"completed":""}" onclick="renderSession(${s.no})"><span>${ev?"✓":s.no}</span><div><small>Semana ${s.week} · Trayecto ${s.trayecto}</small><b>${s.product}</b><em>${s.title}</em></div><strong>${r?`Evaluado ${r.s+r.p+r.t}/12`:(ev?"Guardado":"Pendiente")}</strong></div>`}).join("");
  app(layout(`<div class="topbar"><div><p class="eyebrow">PORTAFOLIO</p><h2>Mi proceso de investigación</h2></div></div>${rows}`,"portfolio","student"))
 }
-
 const projectFields=[
  {key:"situation",title:"1. Situación social inicial",source:[1,2,3,4,8],help:"Describe la situación social que origina tu interés investigativo."},
  {key:"problem",title:"2. Problematización y problema",source:[17,18,20],help:"Explica qué tensión, relación o vacío convierte la situación en un problema investigable."},
