@@ -631,6 +631,7 @@ function openStudentSession(userId,sessionNo){
   let name=student?.profile?.name?.fullName||"Estudiante";
 let analytics=getStudentAnalytics(userId);
   let trend=getStudentTrend(userId);
+  let studentAlerts=getStudentAlerts(userId);
   let evolutionRows=analytics.records.map(r=>{
   let total=r.selection+r.processing+r.transfer;
   return `
@@ -744,7 +745,9 @@ let analytics=getStudentAnalytics(userId);
   ${studentAlerts.length
     ?studentAlerts.map(a=>`
       <div class="alert-row">
-        <b>${a.dimension}:</b> ${a.message}
+        <b>${a.level==="priority"?"PRIORIDAD":"ATENCIÓN"} · ${a.dimension}</b>
+        <p>${a.message}</p>
+        <small>${a.action}</small>
       </div>
     `).join("")
     :'<p class="lead">Sin alertas pedagógicas automáticas.</p>'
