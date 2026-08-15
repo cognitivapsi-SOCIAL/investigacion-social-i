@@ -655,33 +655,51 @@ let analytics=getStudentAnalytics(userId);
 
     <article>
       <span>Selección</span>
-      <b>${analytics.count?analytics.selection.toFixed(2):"-"}/4</b>
+      <b>${analytics.count ? analytics.selection.toFixed(2) : "-"}/4</b>
     </article>
 
     <article>
       <span>Procesamiento</span>
-      <b>${analytics.count?analytics.processing.toFixed(2):"-"}/4</b>
+      <b>${analytics.count ? analytics.processing.toFixed(2) : "-"}/4</b>
     </article>
 
     <article>
       <span>Transferencia</span>
-      <b>${analytics.count?analytics.transfer.toFixed(2):"-"}/4</b>
+      <b>${analytics.count ? analytics.transfer.toFixed(2) : "-"}/4</b>
+    </article>
+  </div>
+
+  <div class="stats">
+    <article>
+      <span>Tendencia Selección</span>
+      <b>${trend.selection}</b>
+    </article>
+
+    <article>
+      <span>Tendencia Procesamiento</span>
+      <b>${trend.processing}</b>
+    </article>
+
+    <article>
+      <span>Tendencia Transferencia</span>
+      <b>${trend.transfer}</b>
     </article>
   </div>
 
   <p class="lead">
     ${analytics.count
-      ?`Promedio integral del microciclo: <b>${analytics.total.toFixed(2)}/12</b>.`
-      :"Esta estudiante todavía no tiene sesiones valoradas."
+      ? `Promedio integral del microciclo: <b>${analytics.total.toFixed(2)}/12</b>.`
+      : "Esta estudiante todavía no tiene sesiones valoradas."
     }
   </p>
-  <div class="evolution-section">
-  <h3>Evolución por sesiones</h3>
 
-  ${evolutionRows||
-    '<p class="lead">Aún no existen sesiones valoradas para mostrar la evolución.</p>'
-  }
-</div>
+  <div class="evolution-section">
+    <h3>Evolución por sesiones</h3>
+
+    ${evolutionRows ||
+      '<p class="lead">Aún no existen sesiones valoradas para mostrar la evolución.</p>'
+    }
+  </div>
 </div>
 
 <div class="panel">
