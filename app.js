@@ -284,7 +284,11 @@ let activityRows=activitySummary
        <h2>Seguimiento pedagógico</h2>
      </div>
    </div>
-
+<div class="panel">
+  <p class="eyebrow">ESTUDIANTES DE CLASSROOM</p>
+  <h2>Lista de estudiantes</h2>
+  ${studentRows||'<p class="lead">Aún no se recuperaron estudiantes desde Classroom.</p>'}
+</div>
    <div class="panel">
   <p class="eyebrow">SEGUIMIENTO POR ACTIVIDAD</p>
   <h2>Actividades de Classroom</h2>
