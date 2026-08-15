@@ -581,12 +581,17 @@ function reviewEvidence(no){
 function saveStudentRubric(userId,sessionNo){
   let key=studentRubricKey(userId,sessionNo);
 
-  state.studentRubrics[key]={
-    selection:+document.getElementById("student_rs").value,
-    processing:+document.getElementById("student_rp").value,
-    transfer:+document.getElementById("student_rt").value,
-    comment:document.getElementById("student_rc").value
-  };
+  let selection=+document.getElementById("student_rs").value;
+let processing=+document.getElementById("student_rp").value;
+let transfer=+document.getElementById("student_rt").value;
+
+state.studentRubrics[key]={
+  selection,
+  processing,
+  transfer,
+  comment:document.getElementById("student_rc").value,
+  evaluated:selection>0 && processing>0 && transfer>0
+};
 
   save();
 
