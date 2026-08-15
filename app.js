@@ -268,10 +268,11 @@ let trajectoryMatrices=[1,2,3,4].map(trayecto=>{
           cls="matrix-reclaimed";
         }
 
-        return `<div class="matrix-cell ${cls}">
-          <small>S${s.session}</small>
-          <span>${label}</span>
-        </div>`;
+        return `<button class="matrix-cell ${cls}"
+  onclick="openStudentSession('${st.userId}',${s.session})">
+  <small>S${s.session}</small>
+  <span>${label}</span>
+</button>`;
       }).join("");
 
     return `<div class="matrix-student-row">
@@ -436,6 +437,77 @@ ${trajectoryMatrices}
      ${rows||'<p class="lead">Aún no hay evidencias.</p>'}
    </div>
  `,"teacher","teacher"))
+}
+function openStudentSession(userId,sessionNo){
+  let student=(state.classroomStudents||[]).find(
+    st=>String(st.userId||st.profile?.id)===String(userId)
+  );
+
+  let session=sessionByNo(sessionNo);
+
+  let courseWorkIds=Object.keys(state.classroomMap||{}).filter(
+    id=>Number(state.classroomMap[id])===Number(sessionNo)
+  );
+
+  let submission=(state.classroomSubmissions||[]).find(
+    sub=>String(sub.userId)===String(userId) &&
+         courseWorkIds.some(
+           id=>String(sub.courseWorkId)===String(id)
+         )
+  );
+
+  let name=student?.profile?.name?.fullName||"Estudiante";
+
+  let status="Sin actividad";
+
+  if(submission?.state==="CREATED")status="Pendiente";
+  else if(submission?.state==="TURNED_IN")status="Entregada";
+  else if(submission?.state==="RETURNED")status="Devuelta";
+  else if(submission?.state==="RECLAIMED_BY_STUDENT")status="Retirada";
+
+  app(layout(`
+    <div class="topbar">
+      <div>
+        <p class="eyebrow">SEGUIMIENTO INDIVIDUAL</p>
+        <h2>${esc(name)}</h2>
+      </div>
+    </div>
+
+    <div class="panel">
+      <p class="eyebrow">SESIÓN ${sessionNo}</p>
+      <h2>${esc(session?.title||"Sesión")}</h2>
+
+      <div class="stats">
+        <article>
+          <span>Estado Classroom</span>
+          <b>${status}</b>
+        </article>
+
+        <article>
+          <span>Trayecto</span>
+          <b>${session?.trayecto||"-"}</b>
+        </article>
+
+        <article>
+          <span>Sesión</span>
+          <b>S${sessionNo}</b>
+        </article>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Seguimiento pedagógico</h2>
+      <p class="lead">
+        Aquí incorporaremos la valoración de Selección,
+        Procesamiento y Transferencia para esta estudiante
+        y esta sesión.
+      </p>
+    </div>
+
+    <button class="secondary" onclick="renderTeacher()">
+      ← Volver al Panel docente
+    </button>
+  `,"teacher","teacher"));
 }
 function reviewEvidence(no){
  let e=state.evidence[no],r=state.rubrics[no]||{s:3,p:3,t:3,comment:""},s=sessionByNo(no);
