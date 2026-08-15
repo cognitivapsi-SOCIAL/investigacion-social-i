@@ -365,7 +365,7 @@ let activityRows=activitySummary
 <div class="panel">
   <p class="eyebrow">MATRIZ DE SEGUIMIENTO</p>
   <h2>Trayecto I · Sesiones 1 a 8</h2>
-${trajectoryMatrices}</div>
+${trajectoryMatrices}
    <div class="panel">
   <p class="eyebrow">SEGUIMIENTO POR ACTIVIDAD</p>
   <h2>Actividades de Classroom</h2>
