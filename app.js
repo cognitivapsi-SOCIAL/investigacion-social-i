@@ -243,36 +243,47 @@ let submission=(state.classroomSubmissions||[]).find(
     sessions
   };
 });
-let trajectory1Matrix=classroomMatrix.map(st=>{
-  let cells=st.sessions
-    .filter(s=>s.trajectory===1)
-    .map(s=>{
-      let label="Sin actividad";
-      let cls="matrix-none";
+let trajectoryMatrices=[1,2,3,4].map(trayecto=>{
+  let start=(trayecto-1)*8+1;
+  let end=trayecto*8;
 
-      if(s.state==="CREATED"){
-        label="Pendiente";
-        cls="matrix-pending";
-      }else if(s.state==="TURNED_IN"){
-        label="Entregada";
-        cls="matrix-turned";
-      }else if(s.state==="RETURNED"){
-        label="Devuelta";
-        cls="matrix-returned";
-      }else if(s.state==="RECLAIMED_BY_STUDENT"){
-        label="Retirada";
-        cls="matrix-reclaimed";
-      }
+  let rows=classroomMatrix.map(st=>{
+    let cells=st.sessions
+      .filter(s=>s.trajectory===trayecto)
+      .map(s=>{
+        let label="Sin actividad";
+        let cls="matrix-none";
 
-      return `<div class="matrix-cell ${cls}">
-        <small>S${s.session}</small>
-        <span>${label}</span>
-      </div>`;
-    }).join("");
+        if(s.state==="CREATED"){
+          label="Pendiente";
+          cls="matrix-pending";
+        }else if(s.state==="TURNED_IN"){
+          label="Entregada";
+          cls="matrix-turned";
+        }else if(s.state==="RETURNED"){
+          label="Devuelta";
+          cls="matrix-returned";
+        }else if(s.state==="RECLAIMED_BY_STUDENT"){
+          label="Retirada";
+          cls="matrix-reclaimed";
+        }
 
-  return `<div class="matrix-student-row">
-    <div class="matrix-student-name">${esc(st.name)}</div>
-    <div class="matrix-session-cells">${cells}</div>
+        return `<div class="matrix-cell ${cls}">
+          <small>S${s.session}</small>
+          <span>${label}</span>
+        </div>`;
+      }).join("");
+
+    return `<div class="matrix-student-row">
+      <div class="matrix-student-name">${esc(st.name)}</div>
+      <div class="matrix-session-cells">${cells}</div>
+    </div>`;
+  }).join("");
+
+  return `<div class="panel">
+    <p class="eyebrow">MATRIZ DE SEGUIMIENTO</p>
+    <h2>Trayecto ${trayecto} · Sesiones ${start} a ${end}</h2>
+    ${rows||'<p class="lead">Aún no existen datos para construir la matriz.</p>'}
   </div>`;
 }).join("");
 let evNums=Object.keys(state.evidence).map(Number).sort((a,b)=>a-b);
